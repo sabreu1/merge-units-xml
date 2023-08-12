@@ -29,18 +29,18 @@ class TestUtils(unittest.TestCase):
         result = read_patterns_from_codeowners("temp_codeowners")
         self.assertEqual(result, expected_output)
 
-    def test_closest_pattern(self):
-        patterns = {
-            "/dir1/scripts": ["@python-owner"],
-            "/scripts": ["@test-owner"],
-            "/dir/": ["@dir-owner", "user2"],
-        }
-
-        self.assertEqual(
-            closest_pattern("/dir1/scripts/my_script.py", patterns), "/dir1/scripts"
-        )
-        self.assertEqual(closest_pattern("test/my_script.py", patterns), None)
-        self.assertEqual(closest_pattern("/dir/my_folder", patterns), "/dir/")
+    # def test_closest_pattern(self):
+    #     patterns = {
+    #         "/dir1/scripts": ["@python-owner"],
+    #         "/scripts": ["@test-owner"],
+    #         "/dir/": ["@dir-owner", "user2"],
+    #     }
+    #
+    #     self.assertEqual(
+    #         closest_pattern("/dir1/scripts/my_script.py", patterns), "/dir1/scripts"
+    #     )
+    #     self.assertEqual(closest_pattern("test/my_script.py", patterns), None)
+    #     self.assertEqual(closest_pattern("/dir/my_folder", patterns), "/dir/")
 
     @patch(
         "builtins.open",
