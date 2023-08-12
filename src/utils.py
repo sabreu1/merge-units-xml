@@ -6,6 +6,7 @@ import logging
 import json
 from tqdm import tqdm
 
+
 def find_path(keyword, search_path):
     for root_dir, dirs, files in os.walk(search_path):
         if keyword in root_dir or keyword in dirs or keyword in files:
@@ -74,7 +75,7 @@ def closest_pattern(target_file, patterns):
                 max_matching_dirs = matching_dirs
                 closest = pattern
 
-    if closest not in target_file:
+    if closest and closest not in target_file:
         closest = None
     return closest
 
@@ -103,7 +104,12 @@ def add_element_after_testcase(xml_file, keyword, append_text):
 
 
 def add_codeowners_to_xml_file(
-    show_progress_bar, xml_files_list_file, xmls_out_path, patterns, output_file, append_owner_in_xml=True
+    show_progress_bar,
+    xml_files_list_file,
+    xmls_out_path,
+    patterns,
+    output_file,
+    append_owner_in_xml=True,
 ):
     testcases_owners = []
 
@@ -123,16 +129,22 @@ def add_codeowners_to_xml_file(
             else:
                 owner = "Unknown"
             if not show_progress_bar:
-                logging.info(f"# target_file={target_file}; closest={closest} and owner={owner}")
+                logging.info(
+                    f"# target_file={target_file}; closest={closest} and owner={owner}"
+                )
             testcase_name = target_file.replace("/test.xml", "")
-            testcase_name = testcase_name[1:] if testcase_name.startswith("/") else testcase_name
+            testcase_name = (
+                testcase_name[1:] if testcase_name.startswith("/") else testcase_name
+            )
 
             testcases_owners.append({"testcase_name": testcase_name, "owner": owner})
 
             if append_owner_in_xml:
                 # append codeowner in combined xml file
                 if not show_progress_bar:
-                    logging.info(f"## append owner={owner} for testcase_name={testcase_name}")
+                    logging.info(
+                        f"## append owner={owner} for testcase_name={testcase_name}"
+                    )
                 add_element_after_testcase(output_file, testcase_name, owner)
 
             if show_progress_bar:
