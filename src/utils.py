@@ -63,15 +63,15 @@ def closest_pattern(target_file, patterns):
     closest = None
     max_matching_dirs = 0
     spec = pathspec.PathSpec.from_lines("gitwildmatch", patterns.keys())
-    # print("# target_file:"+target_file)
+    print("# target_file:"+target_file)
     for pattern in patterns.keys():
-        # print("## pattern:"+pattern)
+        print("## pattern:"+pattern)
         if spec.match_file(target_file):
             pattern_dirs = pattern.split("/")
             file_dirs = target_file.split("/")
             matching_dirs = len([dir for dir in pattern_dirs if dir in file_dirs])
             if matching_dirs > max_matching_dirs:
-                # print("## closest:"+pattern)
+                print("## closest:"+pattern)
                 max_matching_dirs = matching_dirs
                 closest = pattern
 
